@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        "notify-color-primary": "##8981d8",
+        "notify-color-primary": "#8981d8",
         "notify-color-primary-dark": "#6a61c0",
         "notify-color-primary-light": "#e6e5f7",
         "notify-color-secondary": "#9d9d9d",
