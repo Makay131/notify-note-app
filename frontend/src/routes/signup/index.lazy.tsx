@@ -2,7 +2,7 @@ import { createLazyFileRoute, Link } from '@tanstack/react-router';
 
 import { Mail, User } from 'lucide-react';
 import Input from '../../components/input/Input';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import PasswordStrengthScale from '../../components/passwordStrength/PasswordStrengthScale';
 import { getStrength } from '../../utils/passwordCriteria';
 

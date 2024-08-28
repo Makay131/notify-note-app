@@ -16,10 +16,19 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
+const VerifyEmailIndexLazyImport = createFileRoute('/verify-email/')()
 const SignupIndexLazyImport = createFileRoute('/signup/')()
 const LoginIndexLazyImport = createFileRoute('/login/')()
+const ForgotPasswordIndexLazyImport = createFileRoute('/forgot-password/')()
 
 // Create/Update Routes
+
+const VerifyEmailIndexLazyRoute = VerifyEmailIndexLazyImport.update({
+  path: '/verify-email/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/verify-email/index.lazy').then((d) => d.Route),
+)
 
 const SignupIndexLazyRoute = SignupIndexLazyImport.update({
   path: '/signup/',
@@ -31,10 +40,24 @@ const LoginIndexLazyRoute = LoginIndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/login/index.lazy').then((d) => d.Route))
 
+const ForgotPasswordIndexLazyRoute = ForgotPasswordIndexLazyImport.update({
+  path: '/forgot-password/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/forgot-password/index.lazy').then((d) => d.Route),
+)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/forgot-password/': {
+      id: '/forgot-password/'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/login/': {
       id: '/login/'
       path: '/login'
@@ -49,14 +72,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupIndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/verify-email/': {
+      id: '/verify-email/'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof VerifyEmailIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
+  ForgotPasswordIndexLazyRoute,
   LoginIndexLazyRoute,
   SignupIndexLazyRoute,
+  VerifyEmailIndexLazyRoute,
 })
 
 /* prettier-ignore-end */
@@ -67,15 +99,23 @@ export const routeTree = rootRoute.addChildren({
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/forgot-password/",
         "/login/",
-        "/signup/"
+        "/signup/",
+        "/verify-email/"
       ]
+    },
+    "/forgot-password/": {
+      "filePath": "forgot-password/index.lazy.tsx"
     },
     "/login/": {
       "filePath": "login/index.lazy.tsx"
     },
     "/signup/": {
       "filePath": "signup/index.lazy.tsx"
+    },
+    "/verify-email/": {
+      "filePath": "verify-email/index.lazy.tsx"
     }
   }
 }
