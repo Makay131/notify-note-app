@@ -2,7 +2,9 @@ import { createLazyFileRoute, Link } from '@tanstack/react-router';
 
 import { Mail, User } from 'lucide-react';
 import Input from '../../components/input/Input';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import PasswordStrengthScale from '../../components/passwordStrength/PasswordStrengthScale';
+import { getStrength } from '../../utils/passwordCriteria';
 
 export const Route = createLazyFileRoute('/signup/')({
   component: SignupPage,
@@ -12,10 +14,19 @@ function SignupPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isValid, setIsValid] = useState(false);
 
   const handleSignup = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    if (getStrength(password) >= 3) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }, [password]);
 
   return (
     <div className="w-dvw h-dvh flex items-center justify-center">
@@ -44,9 +55,12 @@ function SignupPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button className="mt-5 w-full py-3 px-4 bg-notify-color-primary text-white font-bold rounded-lg border border-notify-color-primary hover:bg-transparent hover:text-notify-color-primary transition duration-300">
-              Sign Up
-            </button>
+            <PasswordStrengthScale password={password} />
+            {isValid && (
+              <button className="mt-5 w-full py-3 px-4 bg-notify-color-primary text-white font-bold rounded-lg border border-notify-color-primary hover:bg-transparent hover:text-notify-color-primary transition duration-300">
+                Sign Up
+              </button>
+            )}
           </form>
         </div>
         <div className="px-8 py-4 flex justify-center">
