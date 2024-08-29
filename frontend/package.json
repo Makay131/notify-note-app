@@ -10,13 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.52.2",
     "@tanstack/react-router": "^1.50.0",
+    "axios": "^1.7.5",
     "lucide-react": "^0.436.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
+    "@tanstack/eslint-plugin-query": "^5.52.0",
     "@tanstack/router-devtools": "^1.50.0",
     "@tanstack/router-plugin": "^1.49.3",
     "@types/react": "^18.3.3",
