@@ -7,5 +7,5 @@ const authAxiosInstance = axios.create({ baseURL: BASE_URL });
 authAxiosInstance.defaults.withCredentials = true;
 
 export const createUser = async (body: createUserType) => {
-  return await authAxiosInstance.post('todos', body);
+  return await authAxiosInstance.post('signup', body);
 };

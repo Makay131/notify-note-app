@@ -5,6 +5,7 @@ import Input from '../../components/input/Input';
 import { useState } from 'react';
 import PasswordStrengthScale from '../../components/passwordStrength/PasswordStrengthScale';
 import { getStrength } from '../../utils/passwordCriteria';
+import { useCreateUser } from '../../service/auth/mutations';
 
 export const Route = createLazyFileRoute('/signup/')({
   component: SignupPage,
@@ -14,11 +15,22 @@ function SignupPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const mutation = useCreateUser();
 
   const derivedIsValid = getStrength(password) >= 3;
 
-  const handleSignup = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const body = { email, password, name };
+    try {
+      await mutation.mutateAsync(body);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      setError(error.response.data.message);
+    }
   };
 
   return (
@@ -48,10 +60,11 @@ function SignupPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            {mutation.isError ? <div>{error}</div> : null}
             <PasswordStrengthScale password={password} />
             {derivedIsValid && (
               <button className="mt-5 w-full py-3 px-4 bg-notify-color-primary text-white font-bold rounded-lg border border-notify-color-primary hover:bg-transparent hover:text-notify-color-primary transition duration-300">
-                Sign Up
+                {mutation.isPending ? 'Signing up...' : 'Sign Up'}
               </button>
             )}
           </form>
