@@ -9,3 +9,7 @@ authAxiosInstance.defaults.withCredentials = true;
 export const createUser = async (body: createUserType) => {
   return await authAxiosInstance.post('signup', body);
 };
+
+export const verifyEmail = async (body: string) => {
+  return await authAxiosInstance.post('signup', body);
+};

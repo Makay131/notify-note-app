@@ -1,5 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useVerifyEmail } from '../../service/auth/mutations';
 
 export const Route = createLazyFileRoute('/verify-email/')({
   component: () => <VerifyEmailPage />,
@@ -7,16 +8,23 @@ export const Route = createLazyFileRoute('/verify-email/')({
 
 export default function VerifyEmailPage() {
   const [code, setCode] = useState(['', '', '', '', '', '']);
+  const [error, setError] = useState('');
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  const handleSubmit = useCallback(
-    (e?: React.FormEvent<HTMLFormElement>) => {
-      if (e) e.preventDefault();
+  const mutation = useVerifyEmail();
 
+  const handleSubmit = useCallback(
+    async (e?: React.FormEvent<HTMLFormElement>) => {
+      if (e) e.preventDefault();
       const verificationCode = code.join('');
-      console.log(verificationCode);
+      try {
+        await mutation.mutateAsync(verificationCode);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        setError(error.response.data.message);
+      }
     },
-    [code],
+    [code, mutation],
   );
 
   //auto submit when all digits are loaded
@@ -25,8 +33,6 @@ export default function VerifyEmailPage() {
       handleSubmit();
     }
   }, [code, handleSubmit]);
-
-  const isLoading = false;
 
   const handleChange = (index: number, value: string) => {
     const newCode = [...code];
@@ -83,10 +89,11 @@ export default function VerifyEmailPage() {
             <button
               className="mt-5 w-full py-3 px-4 bg-notify-color-primary text-white font-bold rounded-lg border border-notify-color-primary hover:bg-transparent disabled:opacity-50 hover:text-notify-color-primary transition duration-300"
               type="submit"
-              disabled={isLoading || code.some((digit) => !digit)}
+              disabled={mutation.isPending || code.some((digit) => !digit)}
             >
-              {isLoading ? 'Verifying...' : 'Verify Email'}
+              {mutation.isPending ? 'Verifying...' : 'Verify Email'}
             </button>
+            {mutation.isError ? <div>{error}</div> : null}
           </form>
         </div>
       </div>

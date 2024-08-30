@@ -1,11 +1,12 @@
 import { createLazyFileRoute, Link } from '@tanstack/react-router';
+import { getStrength } from '../../utils/passwordCriteria';
+
+import { useState } from 'react';
+import { useCreateUser } from '../../service/auth/mutations';
 
 import { Mail, User } from 'lucide-react';
 import Input from '../../components/input/Input';
-import { useState } from 'react';
 import PasswordStrengthScale from '../../components/passwordStrength/PasswordStrengthScale';
-import { getStrength } from '../../utils/passwordCriteria';
-import { useCreateUser } from '../../service/auth/mutations';
 
 export const Route = createLazyFileRoute('/signup/')({
   component: SignupPage,
