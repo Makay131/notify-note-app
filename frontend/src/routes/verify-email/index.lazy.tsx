@@ -24,7 +24,7 @@ export default function VerifyEmailPage() {
         setError(error.response.data.message);
       }
     },
-    [code, mutation],
+    [code],
   );
 
   //auto submit when all digits are loaded
@@ -93,7 +93,7 @@ export default function VerifyEmailPage() {
             >
               {mutation.isPending ? 'Verifying...' : 'Verify Email'}
             </button>
-            {mutation.isError ? <div>{error}</div> : null}
+            {mutation.isError ? <div className="text-red-600">{error}</div> : null}
           </form>
         </div>
       </div>

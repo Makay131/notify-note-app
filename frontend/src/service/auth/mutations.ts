@@ -20,7 +20,7 @@ export function useVerifyEmail() {
   return useMutation({
     mutationFn: (code: string) => verifyEmail(code),
     onSuccess: () => {
-      //navigate({ to: '/verify-email' });
+      navigate({ to: '/' });
     },
   });
 }

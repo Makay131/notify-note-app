@@ -11,5 +11,5 @@ export const createUser = async (body: createUserType) => {
 };
 
 export const verifyEmail = async (body: string) => {
-  return await authAxiosInstance.post('signup', body);
+  return await authAxiosInstance.post('verify-email', { code: body });
 };
