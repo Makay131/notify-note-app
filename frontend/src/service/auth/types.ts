@@ -3,3 +3,5 @@ export type createUserType = {
   password: string;
   name: string;
 };
+
+export type LoginUserType = Omit<createUserType, 'name'>;

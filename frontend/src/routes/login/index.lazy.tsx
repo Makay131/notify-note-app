@@ -2,6 +2,7 @@ import { createLazyFileRoute, Link } from '@tanstack/react-router';
 import { Lock, Mail, Loader } from 'lucide-react';
 import { useState } from 'react';
 import Input from '../../components/input/Input';
+import { useLogUserIn } from '../../service/auth/mutations';
 
 export const Route = createLazyFileRoute('/login/')({
   component: LoginPage,
@@ -10,11 +11,19 @@ export const Route = createLazyFileRoute('/login/')({
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const isLoading = false;
+  const mutation = useLogUserIn();
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const body = { email, password };
+    try {
+      await mutation.mutateAsync(body);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      setError(error.response.data.message);
+    }
   };
 
   return (
@@ -43,8 +52,9 @@ function LoginPage() {
               </Link>
             </div>
             <button className="mt-5 w-full py-3 px-4 bg-notify-color-primary text-white font-bold rounded-lg border border-notify-color-primary hover:bg-transparent hover:text-notify-color-primary transition duration-300">
-              {isLoading ? <Loader className="w-6 h-6 animate-spin mx-auto" /> : 'Login'}
+              {mutation.isPending ? <Loader className="w-6 h-6 animate-spin mx-auto" /> : 'Login'}
             </button>
+            {mutation.isError ? <div>{error}</div> : null}
           </form>
         </div>
         <div className="px-8 py-4 flex justify-center">
