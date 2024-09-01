@@ -25,3 +25,7 @@ export const forgotPassword = async (body: string) => {
 export const resetPassword = async (body: ResetPasswordType) => {
   return await authAxiosInstance.post(`reset-password/${body.token}`, { password: body.password });
 };
+
+export const checkAuth = async () => {
+  return await authAxiosInstance.get('check-auth');
+};
