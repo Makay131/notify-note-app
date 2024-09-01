@@ -14,7 +14,10 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as DashboardIndexImport } from './routes/dashboard/index'
 import { Route as PasswordResetTokenImport } from './routes/password-reset/$token'
+import { Route as DashboardTasksImport } from './routes/dashboard/tasks'
+import { Route as DashboardNotesImport } from './routes/dashboard/notes'
 
 // Create Virtual Routes
 
@@ -54,8 +57,23 @@ const ForgotPasswordIndexLazyRoute = ForgotPasswordIndexLazyImport.update({
   import('./routes/forgot-password/index.lazy').then((d) => d.Route),
 )
 
+const DashboardIndexRoute = DashboardIndexImport.update({
+  path: '/dashboard/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const PasswordResetTokenRoute = PasswordResetTokenImport.update({
   path: '/password-reset/$token',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardTasksRoute = DashboardTasksImport.update({
+  path: '/dashboard/tasks',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardNotesRoute = DashboardNotesImport.update({
+  path: '/dashboard/notes',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -70,11 +88,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/dashboard/notes': {
+      id: '/dashboard/notes'
+      path: '/dashboard/notes'
+      fullPath: '/dashboard/notes'
+      preLoaderRoute: typeof DashboardNotesImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/tasks': {
+      id: '/dashboard/tasks'
+      path: '/dashboard/tasks'
+      fullPath: '/dashboard/tasks'
+      preLoaderRoute: typeof DashboardTasksImport
+      parentRoute: typeof rootRoute
+    }
     '/password-reset/$token': {
       id: '/password-reset/$token'
       path: '/password-reset/$token'
       fullPath: '/password-reset/$token'
       preLoaderRoute: typeof PasswordResetTokenImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardIndexImport
       parentRoute: typeof rootRoute
     }
     '/forgot-password/': {
@@ -112,7 +151,10 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
+  DashboardNotesRoute,
+  DashboardTasksRoute,
   PasswordResetTokenRoute,
+  DashboardIndexRoute,
   ForgotPasswordIndexLazyRoute,
   LoginIndexLazyRoute,
   SignupIndexLazyRoute,
@@ -128,7 +170,10 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/dashboard/notes",
+        "/dashboard/tasks",
         "/password-reset/$token",
+        "/dashboard/",
         "/forgot-password/",
         "/login/",
         "/signup/",
@@ -138,8 +183,17 @@ export const routeTree = rootRoute.addChildren({
     "/": {
       "filePath": "index.tsx"
     },
+    "/dashboard/notes": {
+      "filePath": "dashboard/notes.tsx"
+    },
+    "/dashboard/tasks": {
+      "filePath": "dashboard/tasks.tsx"
+    },
     "/password-reset/$token": {
       "filePath": "password-reset/$token.tsx"
+    },
+    "/dashboard/": {
+      "filePath": "dashboard/index.tsx"
     },
     "/forgot-password/": {
       "filePath": "forgot-password/index.lazy.tsx"

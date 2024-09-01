@@ -20,7 +20,7 @@ export function useLogUserIn() {
   return useMutation({
     mutationFn: (body: LoginUserType) => login(body),
     onSuccess: () => {
-      navigate({ to: '/' });
+      navigate({ to: '/dashboard/notes' });
     },
   });
 }

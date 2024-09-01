@@ -6,6 +6,9 @@ export const Route = createFileRoute('/')({
     console.log(location);
     try {
       await checkAuth();
+      throw redirect({
+        to: '/dashboard/notes',
+      });
     } catch (error) {
       console.log(error);
       throw redirect({
