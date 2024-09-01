@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as PasswordResetTokenImport } from './routes/password-reset/$token'
 
 // Create Virtual Routes
 
@@ -53,6 +54,11 @@ const ForgotPasswordIndexLazyRoute = ForgotPasswordIndexLazyImport.update({
   import('./routes/forgot-password/index.lazy').then((d) => d.Route),
 )
 
+const PasswordResetTokenRoute = PasswordResetTokenImport.update({
+  path: '/password-reset/$token',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -62,6 +68,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/password-reset/$token': {
+      id: '/password-reset/$token'
+      path: '/password-reset/$token'
+      fullPath: '/password-reset/$token'
+      preLoaderRoute: typeof PasswordResetTokenImport
       parentRoute: typeof rootRoute
     }
     '/forgot-password/': {
@@ -99,6 +112,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
+  PasswordResetTokenRoute,
   ForgotPasswordIndexLazyRoute,
   LoginIndexLazyRoute,
   SignupIndexLazyRoute,
@@ -114,6 +128,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/password-reset/$token",
         "/forgot-password/",
         "/login/",
         "/signup/",
@@ -122,6 +137,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/password-reset/$token": {
+      "filePath": "password-reset/$token.tsx"
     },
     "/forgot-password/": {
       "filePath": "forgot-password/index.lazy.tsx"

@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 
-import { createUser, login, verifyEmail } from './api';
+import { createUser, login, verifyEmail, forgotPassword, resetPassword } from './api';
 
-import { createUserType, LoginUserType } from './types';
+import { createUserType, LoginUserType, ResetPasswordType } from './types';
 
 export function useCreateUser() {
   const navigate = useNavigate();
@@ -31,6 +31,23 @@ export function useVerifyEmail() {
     mutationFn: (code: string) => verifyEmail(code),
     onSuccess: () => {
       navigate({ to: '/' });
+    },
+  });
+}
+
+export function useForgotPassword() {
+  return useMutation({
+    mutationFn: (email: string) => forgotPassword(email),
+    onSuccess: () => {},
+  });
+}
+
+export function useResetPassword() {
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: (body: ResetPasswordType) => resetPassword(body),
+    onSuccess: () => {
+      navigate({ to: '/login' });
     },
   });
 }
