@@ -1,15 +1,3 @@
-.navigation-container {
-  @apply overflow-hidden;
-}
-
-.navigation-list {
-  @apply w-full py-8 text-white font-medium;
-}
-
-.navigation-list-item {
-  @apply p-4 flex gap-6 cursor-pointer border-l-4 border-notify-color-primary hover:border-l-4 hover:border-white duration-300 hover:bg-notify-color-primary-dark;
-}
-
 .tags-list {
   @apply w-full py-8 text-white text-xs;
 }

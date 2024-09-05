@@ -1,45 +1,9 @@
-import {
-  BriefcaseBusiness,
-  CircleArrowLeft,
-  CircleArrowRight,
-  Headset,
-  LayoutDashboard,
-  NotebookText,
-  Plus,
-  ScrollText,
-} from 'lucide-react';
+import { CircleArrowLeft, CircleArrowRight, Plus } from 'lucide-react';
 import Seperator from '../seperator/Seperator';
-import { Link } from '@tanstack/react-router';
 
 import { useState } from 'react';
 import styles from './sidebar.module.css';
-
-import { IconComponentProps } from './types';
-
-const menuNav = [
-  {
-    name: 'Overview',
-    icon: 'layoutDashboard',
-  },
-  {
-    name: 'Notes',
-    icon: 'scrollText',
-    link: '/dashboard/notes',
-  },
-  {
-    name: 'Tasks',
-    icon: 'briefcaseBusiness',
-    link: '/dashboard/tasks',
-  },
-  {
-    name: 'Documents',
-    icon: 'notebookText',
-  },
-  {
-    name: 'Support',
-    icon: 'headset',
-  },
-];
+import { NavigationMenu } from '../menu/NavigationMenu';
 
 const tags = [
   {
@@ -63,14 +27,6 @@ const Sidebar: React.FC = () => {
     setIsOpen((prev) => !prev);
   };
 
-  const equivalentIcons: IconComponentProps = {
-    layoutDashboard: LayoutDashboard,
-    scrollText: ScrollText,
-    notebookText: NotebookText,
-    headset: Headset,
-    briefcaseBusiness: BriefcaseBusiness,
-  };
-
   const TagsTemplate = (
     <div>
       <ul className={styles['tags-list']}>
@@ -89,39 +45,6 @@ const Sidebar: React.FC = () => {
     </div>
   );
 
-  const MenuNavigationTemplate = (
-    <nav className={styles['navigation-container']}>
-      <ul className={styles['navigation-list']}>
-        {menuNav.map((menu) => {
-          const IconComponent = equivalentIcons?.[menu.icon];
-          if (menu?.link)
-            return (
-              <li key={menu.name}>
-                <Link
-                  activeProps={{
-                    style: {
-                      borderLeftColor: 'white',
-                    },
-                  }}
-                  className={`${styles['navigation-list-item']} ${!isOpen ? 'justify-center' : ''}`}
-                  to={menu.link}
-                >
-                  <IconComponent />
-                  <span className={`${!isOpen ? 'hidden' : ''}`}>{menu.name}</span>
-                </Link>
-              </li>
-            );
-          return (
-            <li key={menu.name} className={`${styles['navigation-list-item']} ${!isOpen ? 'justify-center' : ''}`}>
-              <IconComponent />
-              <span className={`${!isOpen ? 'hidden' : ''}`}>{menu.name}</span>
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
-  );
-
   return (
     <div className={`${isOpen ? 'w-72' : 'w-20'} h-screen duration-300 ease-in bg-notify-color-primary`}>
       <div
@@ -135,8 +58,8 @@ const Sidebar: React.FC = () => {
           {isOpen ? <CircleArrowLeft className="w-full h-full" /> : <CircleArrowRight className="w-full h-full" />}
         </div>
       </div>
-      {MenuNavigationTemplate}
-      <Seperator />
+      <NavigationMenu />
+      <Seperator isOpen={isOpen} />
       {TagsTemplate}
       <Seperator />
     </div>
