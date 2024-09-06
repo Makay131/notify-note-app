@@ -2,21 +2,6 @@ import { Plus } from 'lucide-react';
 import styles from './categoriesList.module.css';
 import { useUserCategories } from '../../service/auth/queries';
 
-const tags = [
-  {
-    name: 'Projects',
-    color: '#ffcc61',
-  },
-  {
-    name: 'Business',
-    color: '#ff9745',
-  },
-  {
-    name: 'Personel',
-    color: '#47d8ff',
-  },
-];
-
 type CategoriesListProps = {
   isOpen: boolean;
 };
