@@ -1,0 +1,11 @@
+.tags-list {
+  @apply w-full py-8 text-white text-xs;
+}
+
+.tags-list-item {
+  @apply p-4 flex items-center gap-2 tracking-wide font-medium;
+}
+
+.tags-list-item-color {
+  @apply w-2 h-2 rounded-full;
+}

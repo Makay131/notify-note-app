@@ -2,23 +2,8 @@ import { CircleArrowLeft, CircleArrowRight, Plus } from 'lucide-react';
 import Seperator from '../seperator/Seperator';
 
 import { useState } from 'react';
-import styles from './sidebar.module.css';
 import { NavigationMenu } from '../menu/NavigationMenu';
-
-const tags = [
-  {
-    name: 'Projects',
-    color: '#ffcc61',
-  },
-  {
-    name: 'Business',
-    color: '#ff9745',
-  },
-  {
-    name: 'Personel',
-    color: '#47d8ff',
-  },
-];
+import { CategoriesList } from '../categoriesList/categoriesList';
 
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -26,24 +11,6 @@ const Sidebar: React.FC = () => {
   const handleSidebarCloseAndOpen = () => {
     setIsOpen((prev) => !prev);
   };
-
-  const TagsTemplate = (
-    <div>
-      <ul className={styles['tags-list']}>
-        {tags.map((tag) => {
-          return (
-            <li key={tag.name} className={`${styles['tags-list-item']} ${!isOpen ? 'flex-col' : ''}`}>
-              <span className={`${styles['tags-list-item-color']}`} style={{ backgroundColor: tag.color }}></span>
-              <span>{tag.name}</span>
-            </li>
-          );
-        })}
-        <div className={`${styles['tags-list-item']} justify-center cursor-pointer ${!isOpen ? 'flex-col' : ''}`}>
-          <Plus className="w-4 h-4" /> Add New
-        </div>
-      </ul>
-    </div>
-  );
 
   return (
     <div className={`${isOpen ? 'w-72' : 'w-20'} h-screen duration-300 ease-in bg-notify-color-primary`}>
@@ -58,9 +25,9 @@ const Sidebar: React.FC = () => {
           {isOpen ? <CircleArrowLeft className="w-full h-full" /> : <CircleArrowRight className="w-full h-full" />}
         </div>
       </div>
-      <NavigationMenu />
-      <Seperator isOpen={isOpen} />
-      {TagsTemplate}
+      <NavigationMenu isOpen={isOpen} />
+      <Seperator />
+      <CategoriesList isOpen={isOpen} />
       <Seperator />
     </div>
   );
